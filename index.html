@@ -3,70 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Small Question ❤️</title>
+<title>One Question ❤️</title>
 
-<!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
+
 body {
     margin:0;
-    height:100vh;
+    font-family: Arial, sans-serif;
+    color:white;
+    text-align:center;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#ff9a9e,#fad0c4);
-    text-align:center;
-    color:white;
+    height:100vh;
+
+    /* GOOGLE DRIVE BACKGROUND IMAGE */
+    background-image: url("YOUR_BACKGROUND_IMAGE_LINK");
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
-    max-width:500px;
+    max-width:650px;
     padding:20px;
+    background: rgba(0,0,0,0.45);
+    border-radius:15px;
 }
 
-h1 {
-    font-size:2.2em;
-    margin-bottom:15px;
-}
-
-p {
-    font-size:1.2em;
-    opacity:0.9;
+iframe {
+    width:100%;
+    height:360px;
+    border-radius:12px;
+    border:none;
 }
 
 button {
-    margin-top:25px;
     padding:14px 28px;
+    margin:10px;
     font-size:18px;
     border:none;
     border-radius:30px;
     cursor:pointer;
-    transition:0.3s;
-}
-
-.yes {
     background:white;
     color:#ff4d6d;
     font-weight:bold;
+    transition:0.3s;
 }
 
-.yes:hover {
+button:hover {
     transform:scale(1.1);
 }
 
-#ending {
+#questionPanel {
     display:none;
     margin-top:20px;
-    font-size:24px;
+}
+
+#finalMessage {
+    display:none;
+    font-size:26px;
+    margin-top:20px;
     animation:fadeIn 1s ease forwards;
+}
+
+img {
+    width:100%;
+    border-radius:12px;
+    margin-top:15px;
 }
 
 @keyframes fadeIn {
     from {opacity:0; transform:translateY(10px);}
     to {opacity:1; transform:translateY(0);}
 }
+
 </style>
 </head>
 
@@ -74,45 +86,57 @@ button {
 
 <div class="container">
 
-<h1>I have a simple question ❤️</h1>
+    <!-- GOOGLE DRIVE VIDEO -->
+    <iframe
+        id="driveVideo"
+        src="YOUR_VIDEO_PREVIEW_LINK"
+        allow="autoplay">
+    </iframe>
 
-<p>
-Some people cross paths by coincidence.<br>
-Some by timing.<br><br>
-But somehow… we ended up here.
-</p>
+    <!-- QUESTION -->
+    <div id="questionPanel">
+        <h2>Will you be my Valentine? ❤️</h2>
+        <button onclick="sayYes()">Yes ❤️</button>
+        <button onclick="sayNo()">No 😌</button>
+    </div>
 
-<h1>Will you be my Valentine?</h1>
+    <!-- FINAL MESSAGE -->
+    <div id="finalMessage">
+        🎉 you've made the right choice babe :* I love you ❤️
+    </div>
 
-<button class="yes" onclick="sayYes()">Yes ❤️</button>
-
-<div id="ending">
-✨ You just made this moment perfect. ✨<br>
-Happy Valentine’s Day 💌
 </div>
-
-</div>
-
-<!-- Background Music -->
-<audio id="music" loop>
-    <source src="YOUR_MUSIC_FILE.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 
+/*
+Google Drive iframe doesn't give reliable "video ended" events,
+so we approximate using a timer.
+Set duration = your video length (seconds).
+*/
+
+const videoDurationSeconds = 30; // CHANGE THIS
+
+setTimeout(() => {
+    document.getElementById("questionPanel").style.display = "block";
+}, videoDurationSeconds * 1000);
+
+
+// CONFETTI
 function launchConfetti() {
     const duration = 2500;
     const end = Date.now() + duration;
 
     (function frame() {
         confetti({
-            particleCount: 7,
+            particleCount: 8,
             angle: 60,
             spread: 70,
             origin: { x: 0 }
         });
+
         confetti({
-            particleCount: 7,
+            particleCount: 8,
             angle: 120,
             spread: 70,
             origin: { x: 1 }
@@ -125,12 +149,20 @@ function launchConfetti() {
 }
 
 function sayYes() {
-    document.getElementById("ending").style.display = "block";
-
-    // start music after interaction (mobile browsers allow this)
-    document.getElementById("music").play();
-
+    document.getElementById("questionPanel").style.display = "none";
+    document.getElementById("finalMessage").style.display = "block";
     launchConfetti();
+}
+
+function sayNo() {
+    const panel = document.getElementById("questionPanel");
+
+    panel.innerHTML = `
+        <h2>Think again 😌</h2>
+        <img src="YOUR_THINK_AGAIN_IMAGE_LINK">
+        <br>
+        <button onclick="sayYes()">Yes ❤️</button>
+    `;
 }
 
 </script>
