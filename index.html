@@ -20,7 +20,7 @@ body {
     height:100vh;
 
     /* GOOGLE DRIVE BACKGROUND IMAGE */
-    background-image: url("https://drive.google.com/uc?export=view&id=1JsVxI0G6XL4_klzBjr41whYSTlb9cC5a");
+    background-image: url("https://drive.google.com/uc?export=view&id=1JsVxI0G6XL4_klzBjr41whYSTlb9cC5a/view?usp=drivesdk");
     background-size: cover;
     background-position: center;
 }
@@ -92,7 +92,9 @@ img {
         src="https://drive.google.com/file/d/16Lcd5vDsXdJWxbxNgzTon485BIO14FN2/preview"
         allow="autoplay">
     </iframe>
-
+<button id="continueBtn" onclick="showQuestion()" style="display:none;">
+Continue ❤️
+</button>
     <!-- QUESTION -->
     <div id="questionPanel">
         <h2>Will you be my Valentine? ❤️</h2>
@@ -109,17 +111,20 @@ img {
 
 <script>
 
-/*
-Google Drive iframe doesn't give reliable "video ended" events,
-so we approximate using a timer.
-Set duration = your video length (seconds).
-*/
-
-const videoDurationSeconds = 1; // CHANGE THIS
+// Show continue button after video duration
+// SET THIS TO YOUR VIDEO LENGTH (seconds)
+const videoDurationSeconds = 30;
 
 setTimeout(() => {
-    document.getElementById("questionPanel").style.display = "block";
+    document.getElementById("continueBtn").style.display = "block";
 }, videoDurationSeconds * 1000);
+
+
+// When user taps continue → show question
+function showQuestion() {
+    document.getElementById("continueBtn").style.display = "none";
+    document.getElementById("questionPanel").style.display = "block";
+}
 
 
 // CONFETTI
@@ -159,7 +164,7 @@ function sayNo() {
 
     panel.innerHTML = `
         <h2>Think again 😌</h2>
-        <img src="YOUR_THINK_AGAIN_IMAGE_LINK">
+        <img src="https://drive.google.com/uc?export=view&id=1ErLJGOlistec1dqmphiz7Yku55aZqezJ">
         <br>
         <button onclick="sayYes()">Yes ❤️</button>
     `;
